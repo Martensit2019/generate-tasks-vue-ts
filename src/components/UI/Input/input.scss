@@ -1,0 +1,14 @@
+@import '../../../assets/styles/variables.scss';
+
+.label{
+  font-size: 14px;
+  font-weight: 700;
+}
+.input {
+  width: 100%;
+  border: 1px solid $primary;
+  padding: 10px 15px;
+  &__group{
+    margin-bottom: 20px;
+  }
+}
