@@ -1,7 +1,7 @@
 <template>
   <table class="table">
     <thead class="table__header">
-      <th v-if="true" class="table__checkbox">
+      <th v-if="true" class="table__checkbox" style="width: 40px;">
         <Checkbox
           id="checkbox"
           v-model="isSelectedAllTasks"

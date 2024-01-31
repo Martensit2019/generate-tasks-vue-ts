@@ -5,7 +5,7 @@
       <IconSprite name="check" class="checkbox__icon" viewBox="0 0 20 20" :width="20" :height="20"  />
     </div>
 
-    <label  :for="id" class="checkbox__label d-flex">
+    <label v-if="title" :for="id" class="checkbox__label d-flex">
       <slot name="title">
         <span v-if="title" class="checkbox__title">
           {{ title }}

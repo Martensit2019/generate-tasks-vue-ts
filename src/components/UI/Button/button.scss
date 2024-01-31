@@ -37,4 +37,10 @@
       background-color: $danger-hover;
     }
   }
+  &_transparent {
+    background-color: transparent;
+    &:hover {
+      transform: scale(1.2)
+    }
+  }
 }

@@ -4,6 +4,15 @@
       <Button style="margin-bottom: 20px" @click="emit('create-task')"
         >Добавить новую задачу</Button
       >
+      <Input
+        v-model="search"
+        placeholder="Поиск по задачам"
+        search
+        @search="onSearchInput"
+        @enter="onSearchInput"
+        @clear="onSearchReset"
+      />
+
       <div>
         <div style="display: flex">
           <Button color="danger" size="small" @click="emit('remove-groupe', selectedTaskIds)"
@@ -19,7 +28,7 @@
         >
           <TaskTable
             ref="refTaskTable"
-            :tasks="filteredTasks"
+            :tasks="filteredAndSearcedTasks"
             @update-task="(id: string) => emit('update-task', id)"
             @remove-groupe="(removedTaskIds: string[]) => emit('remove-groupe', removedTaskIds)"
             @select-all="(isSelectedAllTasks) => emit('select-all', isSelectedAllTasks)"
@@ -43,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import {TASK_STATUS} from '../../enams/taskStatuses'
+import { TASK_STATUS } from '../../enams/taskStatuses'
 import { type ITask } from '../Tasks/interfaceTasks'
 import StatusFilter from '../StatusFilter/StatusFilter.vue'
 import TaskTable from '../TaskTable/TaskTable.vue'
@@ -66,9 +75,14 @@ const emit = defineEmits<IEmits>()
 
 const refStatusFilter = ref<InstanceType<typeof StatusFilter> | null>(null)
 const refTaskTable = ref<InstanceType<typeof TaskTable> | null>(null)
+const search = ref<string | null>(null)
 
-const currentStatus = computed(() => refStatusFilter.value !== null ? refStatusFilter.value?.activeStatus : TASK_STATUS.all)
-const selectedTaskIds = computed(() => refTaskTable.value !== null ? refTaskTable.value?.selectedTaskIds: [])
+const currentStatus = computed(() =>
+  refStatusFilter.value !== null ? refStatusFilter.value?.activeStatus : TASK_STATUS.all
+)
+const selectedTaskIds = computed(() =>
+  refTaskTable.value !== null ? refTaskTable.value?.selectedTaskIds : []
+)
 
 const filteredTasks = computed(() => {
   if (currentStatus.value === TASK_STATUS.all) return props.tasks
@@ -76,6 +90,24 @@ const filteredTasks = computed(() => {
   if (currentStatus.value === TASK_STATUS.done) return props.tasks.filter((task) => !task.isActive)
   return []
 })
+
+const filteredAndSearcedTasks = computed(() => {
+  if (search.value) {
+    return filteredTasks.value.filter(
+      (task) => {
+        task.name.includes(search.value as string) || task.descr.includes(search.value as string)
+      }
+    )
+  }
+  return filteredTasks.value
+})
+
+const onSearchInput = () => {
+  console.log('onSearchInput', search.value)
+}
+const onSearchReset = () => {
+  search.value = null
+}
 </script>
 
 <style scoped lang="scss">

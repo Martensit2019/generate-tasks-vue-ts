@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 type TSize = 'large' | 'small'
-type TColor = 'primary' | 'success' | 'danger' | 'transparent'
+type TColor = 'primary' | 'success' | 'danger'
 interface IProps {
   size?: TSize
   color?: TColor
