@@ -17,7 +17,7 @@
 type TType = 'text' | 'number'
 interface IProps {
   type?: TType
-  modelValue?: string
+  modelValue: string | null
   placeholder?: string
   label?: string
 }

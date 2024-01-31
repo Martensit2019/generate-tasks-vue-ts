@@ -36,6 +36,8 @@
               @update-task="updateTask"
               @remove-groupe="removeGroupe"
               @to-change-task="toChangeTask"
+              @select-all="selectAllTasks"
+              @select-task="selectTask"
             />
           </Window>
         </div>
@@ -70,23 +72,25 @@ import {
   addTask,
   updateTask,
   removeGroupe,
-  toChangeTask
+  toChangeTask,
+  selectAllTasks,
+  selectTask
 } from './tasks'
 
 const windowSettings = ref<IGridLayout[]>(taskWindowSettings)
 const defaultHeights: number[] = windowSettings.value.map((window) => window.h)
-const resizeHeightTable = ref<number>(null)
+const resizeHeightTable = ref<number | null>(null)
 
 const onStateWindow = (setting: [boolean, string]) => {
   const [isCollapsed, i] = setting
   const curIdx = windowSettings.value.findIndex((window: IGridLayout) => window.i === i)
   windowSettings.value[curIdx].h = isCollapsed ? defaultHeights[curIdx] : 1
   // убираем возможность ресайза свернутоко окошка
-  windowSettings.value[i].resizable = !!isCollapsed
+  windowSettings.value[i as unknown as number].resizable = !!isCollapsed
   // обновляем положение соседних окошек после сворачивая/разворачивания текущего
   windowSettings.value = [...windowSettings.value]
 }
-const resizeEvent = (i: string, newH: number, newW: number, newHPx: number) => {
+const resizeEvent = (i: string | number, newH: number, newW: number, newHPx: number) => {
   if (i === '1' && newHPx) resizeHeightTable.value = newHPx
 }
 </script>

@@ -1,19 +1,19 @@
 import { ref } from 'vue'
-import { generateTasks } from '@/helpers/generateTasks'
+import { generateTasks } from '../../helpers/generateTasks'
 import { type ITask } from './interfaceTasks'
 
 export const tasks = ref<ITask[]>([])
 export const curTask = ref<ITask>()
 export const isVisibleAddTask = ref<boolean>(false)
 export const isVisibleChangeTask = ref<boolean>(false)
+const selectedTaskIds = ref<string[]>([])
 
 // 1. Генерация задач
-export const onGenerate = (quantity: string) => {
+export const onGenerate = (quantity: string | null) => {
   tasks.value = generateTasks(Number(quantity))
 }
 // 2. Добавление новой задачи
 export const addTask = (task: ITask) => {
-  // if()
   tasks.value.push(task)
   isVisibleAddTask.value = false
 }
@@ -35,4 +35,13 @@ export const toChangeTask = (curTask: ITask, action: string) => {
     tasks.value[curIdx] = curTask
   }
   isVisibleChangeTask.value = false
+}
+// 6. Выбрать/снять все задачи
+export const selectAllTasks = (isSelectedAllTasks: boolean) => {
+  tasks.value.forEach((task) => (task.checked = isSelectedAllTasks))
+}
+// 7. Выбрать/снять выбор с задачи
+export const selectTask = (task: ITask) => {
+  selectedTaskIds.value.push(task.id)
+  
 }

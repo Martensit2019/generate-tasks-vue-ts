@@ -36,9 +36,9 @@ export default defineConfig({
   ],
   css: {
     preprocessorOptions: {
-      sass: {
+      scss: {
         additionalData: `
-            @import "./src/assets/styles/index.sass"
+            @import "./src/assets/styles/main.scss";
             `,
       },
     },

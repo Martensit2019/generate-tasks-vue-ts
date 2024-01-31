@@ -1,8 +1,12 @@
 <template>
   <table class="table">
     <thead class="table__header">
-      <th class="table__checkbox">
-        <input type="checkbox" v-model="isSelectedAllTasks" @click="select" />
+      <th v-if="true" class="table__checkbox">
+        <Checkbox
+          id="checkbox"
+          v-model="isSelectedAllTasks"
+          @update:model-value="emit('select-all', isSelectedAllTasks)"
+        />
       </th>
       <th v-for="header in headers" :style="{ width: header.width }" :key="header.code">
         {{ header.title }}
@@ -10,8 +14,12 @@
     </thead>
     <tbody>
       <tr v-for="task in tasks" :key="task.id">
-        <td class="center">
-          <input type="checkbox" :value="task.id" v-model="selectedTaskIds" />
+        <td v-if="true" class="center">
+          <Checkbox
+            id="checkbox"
+            v-model="task.checked"
+            @update:model-value="emit('select-task', task)"
+          />
         </td>
         <td>
           <div>{{ task.name }}</div>
@@ -47,30 +55,26 @@ import { type IHeader } from './interfaceTaskTable'
 import { tableHeaders } from './dataTaskTable'
 
 interface IProps {
-  tasks?: ITask[]
+  tasks: ITask[]
 }
 const props = defineProps<IProps>()
 
 interface IEmits {
   (e: 'update-task', id: string): void
   (e: 'remove-groupe', removedTaskIds: string[]): void
+  (e: 'select-all', isSelectedAllTasks: boolean): void
+  (e: 'select-task', task: ITask): void
 }
 
 const emit = defineEmits<IEmits>()
 
-const isSelectedAllTasks = ref<boolean>(false)
-const selectedTaskIds = ref([])
+const isSelectedAllTasks = ref<boolean>(props.tasks.every((task) => task.checked))
+const selectedTaskIds = computed(() =>
+  props.tasks.filter((task) => task.checked).map((task) => task.id)
+)
 
 const headers: IHeader[] = tableHeaders
 
-const select = () => {
-  selectedTaskIds.value = []
-  if (!isSelectedAllTasks.value) {
-    for (let i in props.tasks) {
-      selectedTaskIds.value.push(props.tasks[i].id)
-    }
-  }
-}
 defineExpose({
   selectedTaskIds
 })

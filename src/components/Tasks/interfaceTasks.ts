@@ -13,4 +13,5 @@ export interface ITask {
   name: string
   descr: string
   isActive: boolean
+  checked: boolean
 }

@@ -15,17 +15,17 @@
 </template>
 <script setup lang="ts">
 interface IEmits {
-  (e: 'generate', quantity: string): void
+  (e: 'generate', quantity: string | null): void
 }
 
 const emit = defineEmits<IEmits>()
 
-const quantity = ref<string>()
+const quantity = ref<string | null>(null)
 const isDisabled = computed(() => Boolean(quantity.value))
 const generate = () => {
-  emit('generate', quantity.value)
+   if(quantity.value === null) return
+   emit('generate', quantity.value)
   quantity.value = null
-
 }
 </script>
 

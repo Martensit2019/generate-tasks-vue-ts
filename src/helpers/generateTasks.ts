@@ -1,4 +1,4 @@
-import { type ITask } from "@/components/Tasks/interfaceTasks"
+import { type ITask } from "../components/Tasks/interfaceTasks"
 
 export const generateUniqueIid = () => 'id' + Math.random().toString(16).slice(2)
 
@@ -25,7 +25,8 @@ export const generateTasks = (quantity: number) => {
     id: generateUniqueIid(),
     name: task,
     descr: `${task} Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, ipsam adipisci! Reiciendis adipisci odit deserunt perspiciatis exercitationem eaque soluta aliquam.`,
-    isActive: true
+    isActive: true,
+    checked: false
   }))
   console.log('quantity', quantity);
   

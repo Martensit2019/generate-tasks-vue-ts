@@ -1,5 +1,3 @@
-import './assets/styles/main.css'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import {loadState, saveState} from './helpers/storage'

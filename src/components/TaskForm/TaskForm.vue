@@ -4,11 +4,11 @@
       <Input v-model="title" label="Введите название задачи" />
       <Input v-model="descr" label="Введите описание задачи" />
       <div v-if="isUpdate">
-        <Button v-if="props.task.isActive" color="success" is-full @click="toCompleted"
+        <Button v-if="props.task?.isActive" color="success" is-full @click="toCompleted"
           >Пометить выполненной</Button
         >
         <div class="task-frorm__update-btns">
-          <Button v-if="props.task.isActive" :isDisabled="!isDisabled" @click="toUpdate">Обновить задачу</Button>
+          <Button v-if="props.task?.isActive" :isDisabled="!isDisabled" @click="toUpdate">Обновить задачу</Button>
           <Button color="danger" @click="toRemove">Удалить задачу</Button>
         </div>
       </div>
@@ -44,19 +44,20 @@ const createTask = () => {
     id: generateUniqueIid(),
     name: title.value,
     descr: descr.value,
-    isActive: true
+    isActive: true,
+    checked: false
   }
   emit('add-task', newTask)
 }
 
 const toCompleted = () => {
-  emit('to-change-task', { ...props.task, isActive: false }, 'completed')
+  if(props.task) emit('to-change-task', { ...props.task, isActive: false }, 'completed')
 }
 const toUpdate = (task: ITask) => {
-  emit('to-change-task', { ...props.task, name: title.value, descr: descr.value }, 'update')
+  if(props.task) emit('to-change-task', { ...props?.task, name: title.value, descr: descr.value }, 'update')
 }
 const toRemove = () => {
-  emit('to-change-task', props.task, 'remove')
+  if(props.task) emit('to-change-task', props.task, 'remove')
 }
 </script>
 <script setup lang="ts"></script>
