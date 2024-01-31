@@ -1,5 +1,5 @@
 # Посмотреть приложение в действии
-https://test-blue-xi.vercel.app/
+https://generate-tasks-vue-ts.vercel.app/
 
 # start-project
 
