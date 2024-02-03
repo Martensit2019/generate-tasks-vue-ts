@@ -5,6 +5,7 @@
         >Добавить новую задачу</Button
       >
       <Input
+      v-if="false"
         v-model="search"
         placeholder="Поиск по задачам"
         search
